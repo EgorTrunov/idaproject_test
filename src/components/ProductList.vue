@@ -2,9 +2,23 @@
   <div class="">
     <h1 class="title">Добавление товара</h1>
     <form class="form">
-      <label for="name">
-        <input class="form__input" type="text" name="name">
+      <label class="form__label" for="name">
+        <p class="label__title">Наименование товара</p>
+        <input class="form__input" type="text" name="name" placeholder="Введите наименование товара">
       </label>
+      <label class="form__label" for="description">
+        <p class="label__title">Описание товара</p>
+        <textarea class="form__input form__input--area" name="description" placeholder="Введите описание товара"></textarea>
+      </label>
+      <label class="form__label" for="image">
+        <p class="label__title">Ссылка на изображение товара</p>
+        <input class="form__input" type="text" name="image" placeholder="Введите ссылку">
+      </label>
+      <label class="form__label" for="price">
+        <p class="label__title">Цена товара</p>
+        <input class="form__input" type="number" name="price" placeholder="Введите цену">
+      </label>
+      <button class="button" type="button" disabled>Добавить товар</button>
     </form>
   </div>
 </template>
@@ -18,9 +32,10 @@ export default {
 <style scoped lang="scss">
 $bg-color: #fffefb;
 $text-color: #3f3f3f;
+$label-color: #49485e;
+$placeholder-color: #b4b4b4;
 $important-color: #ff8484;
 $disabled-color: #eeeeee;
-$bx-shodow: 0px 20px 30px rgba(0, 0, 0, 0.04), 0px 6px 10px rgba(0, 0, 0, 0.02);
 
 .title {
   font: {
@@ -32,18 +47,77 @@ $bx-shodow: 0px 20px 30px rgba(0, 0, 0, 0.04), 0px 6px 10px rgba(0, 0, 0, 0.02);
 }
 
 %input {
+  display: block;
   width: 100%;
+  height: 36px;
+  padding: 10px 5px 11px 16px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  color: $text-color;
+  cursor: pointer;
+}
+
+%placeholder {
+  color: $placeholder-color;
 }
 
 .form {
   padding: 24px;
   border-radius: 4px;
   background: $bg-color;
-  box-shadow: $bx-shodow;
+  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04), 0px 6px 10px rgba(0, 0, 0, 0.02);;
   max-width: 320px;
+  .form__label {
+    display: block;
+    margin-bottom: 16px;
+    .label__title {
+      font-size: 10px;
+      line-height: 12px;
+      color: $label-color;
+      position: relative;
+      margin-bottom: 4px;
+    }
+    .label__title:not(.label__title:nth-of-type(2)) {
+      &::after {
+        content: '';
+        position: absolute;
+        height: 4px;
+        width: 4px;
+        background-color: $important-color;
+        border-radius: 4px;
+      }
+    }
+  }
   .form__input {
     @extend %input;
   }
-
+  .form__input::placeholder {
+    @extend %placeholder;
+  }
+  .form__input--area {
+    height: 108px;
+    resize: none;
+    overflow: hidden;
+    white-space: pre-wrap;
+  }
+  .form__input--area::placeholder {
+    @extend %placeholder;
+  }
+  .button {
+    width: 100%;
+    height: 36px;
+    font: {
+      family: 'Inter', sans-serif;
+      weight: 600;
+    }
+    text-align: center;
+    color: $placeholder-color;
+    background: $disabled-color;
+    border: none;
+    border-radius: 10px;
+    margin-top: 8px;
+    padding: 10px auto;
+  }
 }
 </style>

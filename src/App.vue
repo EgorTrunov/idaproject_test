@@ -28,6 +28,7 @@ export default {
     size: 12px;
     weight: 400;
   }
+  line-height: 15px;
   color: $text-color;
   background: $bg-color;
 }
@@ -37,7 +38,7 @@ export default {
   margin: 0 auto;
   padding: 32px 5px 0;
   display: grid;
-  grid-template-columns: 4fr 12fr;
+  grid-template-columns: 1fr 3fr;
   gap: 16px;
 }
 </style>
