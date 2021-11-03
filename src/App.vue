@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h1>Добавление товара</h1>
-    <ProductList />
+  <div class="container">
+      <ProductList />
   </div>
 </template>
 
@@ -17,12 +16,28 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  $bg-color: #fffefb80;
+  $text-color: #3f3f3f;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font: {
+    family: 'Source Sans Pro', sans-serif;
+    size: 12px;
+    weight: 400;
+  }
+  color: $text-color;
+  background: $bg-color;
+}
+
+.container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 32px 5px 0;
+  display: grid;
+  grid-template-columns: 4fr 12fr;
+  gap: 16px;
 }
 </style>
