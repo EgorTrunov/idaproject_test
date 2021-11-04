@@ -3,22 +3,22 @@
     <h1 class="title">Добавление товара</h1>
     <form class="form">
       <label class="form__label" for="name">
-        <p class="label__title">Наименование товара</p>
-        <input class="form__input" type="text" name="name" placeholder="Введите наименование товара">
+        <p class="label__title label__title--important">Наименование товара</p>
+        <input required class="form__input" type="text" name="name" placeholder="Введите наименование товара">
       </label>
       <label class="form__label" for="description">
         <p class="label__title">Описание товара</p>
-        <textarea class="form__input form__input--area" name="description" placeholder="Введите описание товара"></textarea>
+        <textarea class="form__input--area" name="description" placeholder="Введите описание товара"></textarea>
       </label>
       <label class="form__label" for="image">
-        <p class="label__title">Ссылка на изображение товара</p>
-        <input class="form__input" type="text" name="image" placeholder="Введите ссылку">
+        <p class="label__title label__title--important">Ссылка на изображение товара</p>
+        <input required class="form__input" type="text" name="image" placeholder="Введите ссылку">
       </label>
       <label class="form__label" for="price">
-        <p class="label__title">Цена товара</p>
-        <input class="form__input" type="number" name="price" placeholder="Введите цену">
+        <p class="label__title label__title--important">Цена товара</p>
+        <input required class="form__input" type="text" name="price" placeholder="Введите цену">
       </label>
-      <button class="button" type="button" disabled>Добавить товар</button>
+      <button class="button" type="submit">Добавить товар</button>
     </form>
   </div>
 </template>
@@ -36,6 +36,8 @@ $label-color: #49485e;
 $placeholder-color: #b4b4b4;
 $important-color: #ff8484;
 $disabled-color: #eeeeee;
+$active-color: #7bae73;
+$active-color--text: #ffffff;
 
 .title {
   font: {
@@ -78,31 +80,44 @@ $disabled-color: #eeeeee;
       position: relative;
       margin-bottom: 4px;
     }
-    .label__title:not(.label__title:nth-of-type(2)) {
-      &::after {
-        content: '';
-        position: absolute;
-        height: 4px;
-        width: 4px;
-        background-color: $important-color;
-        border-radius: 4px;
-      }
-    }
+  }
+  .label__title--important::after {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 4px;
+    background-color: $important-color;
+    border-radius: 4px;
   }
   .form__input {
     @extend %input;
+    &::placeholder {
+      @extend %placeholder;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:invalid:not(:focus) {
+      border: 1px solid $important-color;
+    }
   }
-  .form__input::placeholder {
-    @extend %placeholder;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance: textfield;
   }
   .form__input--area {
+    @extend %input;
     height: 108px;
     resize: none;
     overflow: hidden;
     white-space: pre-wrap;
-  }
-  .form__input--area::placeholder {
-    @extend %placeholder;
+    &::placeholder {
+      @extend %placeholder;
+    }
   }
   .button {
     width: 100%;
@@ -112,12 +127,16 @@ $disabled-color: #eeeeee;
       weight: 600;
     }
     text-align: center;
-    color: $placeholder-color;
-    background: $disabled-color;
     border: none;
     border-radius: 10px;
     margin-top: 8px;
     padding: 10px auto;
+    background-color: $active-color;
+    color: $active-color--text;
+    &:disabled {
+      color: $placeholder-color;
+      background: $disabled-color;
+    }
   }
 }
 </style>
