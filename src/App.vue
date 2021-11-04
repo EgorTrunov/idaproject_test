@@ -1,16 +1,36 @@
 <template>
   <div class="container">
-      <ProductList />
+      <Form />
+      <ProductList :product-list="productList" />
   </div>
 </template>
 
 <script>
 import ProductList from './components/ProductList.vue';
+import Form from './components/Form.vue';
 
 export default {
   name: 'App',
   components: {
-    ProductList,
+    ProductList, Form,
+  },
+  data() {
+    return {
+      productList: [
+        {
+          title: 'Наименование товара',
+          url: 'https://audeze.su/wp-content/uploads/2018/05/Audeze-Mobius-Product-Shots-Oct-2018-Carbon3Q_Mic_2000x-600x600.jpg',
+          description: 'Описание товара. Что-то интересное о товаре',
+          price: '2000 руб.',
+        },
+        {
+          title: 'Наименование товара',
+          url: 'https://audeze.su/wp-content/uploads/2018/05/Audeze-Mobius-Product-Shots-Oct-2018-Carbon3Q_Mic_2000x-600x600.jpg',
+          description: 'Описание товара. Что-то интересное о товаре #2',
+          price: '5000 руб.',
+        },
+      ],
+    };
   },
 };
 </script>
