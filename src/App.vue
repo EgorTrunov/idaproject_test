@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-      <Form />
-      <ProductList :product-list="productList" />
+      <Form @add-product="addProduct"/>
+      <ProductList :product-list="productList"/>
   </div>
 </template>
 
@@ -21,16 +21,22 @@ export default {
           title: 'Наименование товара',
           url: 'https://audeze.su/wp-content/uploads/2018/05/Audeze-Mobius-Product-Shots-Oct-2018-Carbon3Q_Mic_2000x-600x600.jpg',
           description: 'Описание товара. Что-то интересное о товаре',
-          price: '2000 руб.',
+          price: '2000',
         },
         {
           title: 'Наименование товара',
           url: 'https://audeze.su/wp-content/uploads/2018/05/Audeze-Mobius-Product-Shots-Oct-2018-Carbon3Q_Mic_2000x-600x600.jpg',
           description: 'Описание товара. Что-то интересное о товаре #2',
-          price: '5000 руб.',
+          price: '5000',
         },
       ],
     };
+  },
+  methods: {
+    addProduct(product) {
+      this.productList.unshift(product);
+      console.log(this.productList);
+    },
   },
 };
 </script>

@@ -8,7 +8,7 @@
         <div class="product__text">
           <h1 class="product__title">{{ product.title }}</h1>
           <p class="product__description">{{ product.description }}</p>
-          <p class="product__price">{{ product.price }}</p>
+          <p class="product__price">{{ product.price }} руб.</p>
         </div>
       </li>
     </ul>
@@ -53,7 +53,7 @@ $important-color: #ff8484;
   }
   .product__text {
     padding: 16px 16px 24px;
-    height: 100%;
+    min-height: 223px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

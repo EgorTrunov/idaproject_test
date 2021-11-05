@@ -4,21 +4,21 @@
     <form class="form">
       <label class="form__label" for="name">
         <p class="label__title label__title--important">Наименование товара</p>
-        <input required class="form__input" type="text" name="name" placeholder="Введите наименование товара">
+        <input required class="form__input" type="text" name="name" placeholder="Введите наименование товара" v-on:input="newName">
       </label>
       <label class="form__label" for="description">
         <p class="label__title">Описание товара</p>
-        <textarea class="form__input--area" name="description" placeholder="Введите описание товара"></textarea>
+        <textarea class="form__input--area" name="description" placeholder="Введите описание товара" v-on:input="newDescription"></textarea>
       </label>
       <label class="form__label" for="image">
         <p class="label__title label__title--important">Ссылка на изображение товара</p>
-        <input required class="form__input" type="text" name="image" placeholder="Введите ссылку">
+        <input required class="form__input" type="text" name="image" placeholder="Введите ссылку " v-on:input="newImg">
       </label>
       <label class="form__label" for="price">
         <p class="label__title label__title--important">Цена товара</p>
-        <input required class="form__input" type="text" name="price" placeholder="Введите цену">
+        <input required class="form__input" type="text" name="price" placeholder="Введите цену" v-on:input="newPrice">
       </label>
-      <button class="button" type="submit">Добавить товар</button>
+      <button class="button" type="button" @click="createNewProduct">Добавить товар</button>
     </form>
   </div>
 </template>
@@ -26,6 +26,33 @@
 <script>
 export default {
   name: 'Form',
+  data() {
+    return {
+      product: {
+        title: '',
+        url: '',
+        description: '',
+        price: '',
+      },
+    };
+  },
+  methods: {
+    newName(event) {
+      this.product.title = event.target.value;
+    },
+    newDescription(event) {
+      this.product.description = event.target.value;
+    },
+    newImg(event) {
+      this.product.url = event.target.value;
+    },
+    newPrice(event) {
+      this.product.price = event.target.value;
+    },
+    createNewProduct() {
+      this.$emit('addProduct', this.product);
+    },
+  },
 };
 </script>
 
