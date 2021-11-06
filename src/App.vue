@@ -56,7 +56,6 @@ export default {
   }
   line-height: 15px;
   color: $text-color;
-  background: $bg-color;
 }
 
 .container {

@@ -4,21 +4,21 @@
     <form class="form">
       <label class="form__label" for="name">
         <p class="label__title label__title--important">Наименование товара</p>
-        <input required class="form__input" type="text" name="name" placeholder="Введите наименование товара" v-on:input="newName">
+        <input required class="form__input" type="text" name="name" placeholder="Введите наименование товара" v-model="title" @blur="notEmpty">
       </label>
       <label class="form__label" for="description">
         <p class="label__title">Описание товара</p>
-        <textarea class="form__input--area" name="description" placeholder="Введите описание товара" v-on:input="newDescription"></textarea>
+        <textarea class="form__input--area" name="description" placeholder="Введите описание товара" v-model="description"></textarea>
       </label>
       <label class="form__label" for="image">
         <p class="label__title label__title--important">Ссылка на изображение товара</p>
-        <input required class="form__input" type="text" name="image" placeholder="Введите ссылку " v-on:input="newImg">
+        <input required class="form__input" type="url" name="image" placeholder="Введите ссылку " v-model="url" @blur="notEmpty">
       </label>
       <label class="form__label" for="price">
         <p class="label__title label__title--important">Цена товара</p>
-        <input required class="form__input" type="text" name="price" placeholder="Введите цену" v-on:input="newPrice">
+        <input required class="form__input" type="number" name="price" placeholder="Введите цену" v-model="price" @blur="notEmpty">
       </label>
-      <button class="button" type="button" @click="createNewProduct">Добавить товар</button>
+      <button :disabled="!areAllInputsValid" class="button" type="button" @click="createNewProduct">Добавить товар</button>
     </form>
   </div>
 </template>
@@ -28,29 +28,42 @@ export default {
   name: 'Form',
   data() {
     return {
-      product: {
-        title: '',
-        url: '',
-        description: '',
-        price: '',
-      },
+      title: '',
+      url: '',
+      description: '',
+      price: '',
     };
   },
+  computed: {
+    isTitleValid() {
+      return this.title !== '';
+    },
+    isUrlValid() {
+      return this.url !== '';
+    },
+    isPriceValid() {
+      return this.price !== '';
+    },
+    areAllInputsValid() {
+      return this.isTitleValid && this.isUrlValid && this.isPriceValid;
+    },
+  },
   methods: {
-    newName(event) {
-      this.product.title = event.target.value;
-    },
-    newDescription(event) {
-      this.product.description = event.target.value;
-    },
-    newImg(event) {
-      this.product.url = event.target.value;
-    },
-    newPrice(event) {
-      this.product.price = event.target.value;
-    },
     createNewProduct() {
-      this.$emit('addProduct', this.product);
+      const newProduct = {
+        title: this.title,
+        url: this.url,
+        description: this.description,
+        price: this.price,
+      };
+      this.$emit('addProduct', newProduct);
+    },
+    notEmpty(event) {
+      if (event.target.value === '') {
+        event.target.classList.add('invalid');
+      } else {
+        event.target.classList.remove('invalid');
+      }
     },
   },
 };
@@ -75,19 +88,19 @@ $active-color--text: #ffffff;
   margin-bottom: 16px;
 }
 
-%input {
+%style-input {
   display: block;
   width: 100%;
   height: 36px;
   padding: 10px 5px 11px 16px;
-  border: none;
   border-radius: 4px;
+  border: none;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   color: $text-color;
   cursor: pointer;
 }
 
-%placeholder {
+%style-placeholder {
   color: $placeholder-color;
 }
 
@@ -117,15 +130,12 @@ $active-color--text: #ffffff;
     border-radius: 4px;
   }
   .form__input {
-    @extend %input;
+    @extend %style-input;
     &::placeholder {
-      @extend %placeholder;
+      @extend %style-placeholder;
     }
     &:focus {
       outline: none;
-    }
-    &:invalid:not(:focus) {
-      border: 1px solid $important-color;
     }
   }
   input::-webkit-outer-spin-button,
@@ -137,13 +147,16 @@ $active-color--text: #ffffff;
     -moz-appearance: textfield;
   }
   .form__input--area {
-    @extend %input;
+    @extend %style-input;
     height: 108px;
     resize: none;
     overflow: hidden;
     white-space: pre-wrap;
     &::placeholder {
-      @extend %placeholder;
+      @extend %style-placeholder;
+    }
+    &:focus {
+      outline: none;
     }
   }
   .button {
@@ -165,5 +178,9 @@ $active-color--text: #ffffff;
       background: $disabled-color;
     }
   }
+}
+
+.invalid {
+  border: 1px solid $important-color !important;
 }
 </style>
