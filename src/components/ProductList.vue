@@ -3,17 +3,19 @@
     <div class="sorting">
     </div>
     <ul class="product-list">
-      <li class="product" v-for="(product, index) in productList" :key="index">
-        <div class="box-svg">
-          <img src="@/assets/img/delete.svg">
-        </div>
-        <img class="product__img" :src="product.url" alt="Картинка товара">
-        <div class="product__text">
-          <h1 class="product__title">{{ product.title }}</h1>
-          <p class="product__description">{{ product.description }}</p>
-          <p class="product__price">{{ product.price }} руб.</p>
-        </div>
-      </li>
+      <transition-group>
+        <li class="product" v-for="(product, index) in productList" :key="index">
+          <div class="box-svg" @click="deleteProduct(index)">
+            <img src="@/assets/img/delete.svg">
+          </div>
+          <img class="product__img" :src="product.url" alt="Картинка товара">
+          <div class="product__text">
+            <h1 class="product__title">{{ product.title }}</h1>
+            <p class="product__description">{{ product.description }}</p>
+            <p class="product__price">{{ product.price }} руб.</p>
+          </div>
+        </li>
+      </transition-group>
     </ul>
   </div>
 </template>
@@ -22,6 +24,11 @@
 export default {
   name: 'ProductList',
   props: ['productList'],
+  methods: {
+    deleteProduct(index) {
+      this.$emit('deleteProduct', index);
+    },
+  },
 };
 </script>
 

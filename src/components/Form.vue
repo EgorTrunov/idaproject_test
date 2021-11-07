@@ -180,6 +180,12 @@ $active-color--text: #ffffff;
   }
 }
 
+input[type="url"] {
+  &:invalid {
+    border: 1px solid $important-color !important;
+  }
+}
+
 .invalid {
   border: 1px solid $important-color !important;
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
       <Form @add-product="addProduct"/>
-      <ProductList :product-list="productList"/>
+      <ProductList :product-list="productList" @delete-product="deleteProduct"/>
   </div>
 </template>
 
@@ -33,9 +33,11 @@ export default {
     };
   },
   methods: {
-    addProduct(product) {
-      this.productList.unshift(product);
-      console.log(this.productList);
+    addProduct(newProduct) {
+      this.productList.unshift(newProduct);
+    },
+    deleteProduct(index) {
+      this.productList.splice(index, 1);
     },
   },
 };
