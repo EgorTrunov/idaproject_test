@@ -35,10 +35,18 @@ export default {
   methods: {
     addProduct(newProduct) {
       this.productList.unshift(newProduct);
+      localStorage.setItem('productList', JSON.stringify(this.productList));
     },
     deleteProduct(index) {
       this.productList.splice(index, 1);
+      localStorage.setItem('productList', JSON.stringify(this.productList));
     },
+  },
+  mounted() {
+    const storedProductList = JSON.parse(localStorage.getItem('productList'));
+    if (storedProductList) {
+      this.productList = storedProductList;
+    }
   },
 };
 </script>
@@ -62,10 +70,28 @@ export default {
 
 .container {
   max-width: 1360px;
-  margin: 0 auto;
   padding: 32px 5px 0;
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: 16px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .container {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@media (max-width: 850px) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

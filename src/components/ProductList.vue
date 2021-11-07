@@ -1,22 +1,30 @@
 <template>
-  <div>
+  <div class="product__inner">
     <div class="sorting">
+      <div class="select" @click="areOptionVisible = !areOptionVisible" key="transferFrom">
+        <p class="select--active">{{ optionActive }}</p>
+        <div class="option__inner" v-if="areOptionVisible">
+            <span class="option__item" v-for="option in options" :key="option.value" @click="selectOption(option.name)">{{ option.name }}</span>
+        </div>
+        <span class="select__arrow">
+          <img class="img__arrow" src="@/assets/img/arrow.svg" v-if="!areOptionVisible">
+          <img class="img__arrow" src="@/assets/img/arrow-rotate.svg" v-else>
+        </span>
+      </div>
     </div>
-    <ul class="product-list">
-      <transition-group>
-        <li class="product" v-for="(product, index) in productList" :key="index">
-          <div class="box-svg" @click="deleteProduct(index)">
-            <img src="@/assets/img/delete.svg">
-          </div>
-          <img class="product__img" :src="product.url" alt="Картинка товара">
-          <div class="product__text">
-            <h1 class="product__title">{{ product.title }}</h1>
-            <p class="product__description">{{ product.description }}</p>
-            <p class="product__price">{{ product.price }} руб.</p>
-          </div>
-        </li>
+    <transition-group tag="ul" class="product-list" name="list">
+      <li class="product" v-for="(product, index) in productList" :key="index">
+        <div class="box-svg" @click="deleteProduct(index)">
+          <img src="@/assets/img/delete.svg">
+        </div>
+        <img class="product__img" :src="product.url" alt="Картинка товара">
+        <div class="product__text">
+          <h1 class="product__title">{{ product.title }}</h1>
+          <p class="product__description">{{ product.description }}</p>
+          <p class="product__price">{{ product.price }} руб.</p>
+        </div>
+      </li>
       </transition-group>
-    </ul>
   </div>
 </template>
 
@@ -24,9 +32,24 @@
 export default {
   name: 'ProductList',
   props: ['productList'],
+  data() {
+    return {
+      options: [
+        { name: 'По цене min', value: 'min' },
+        { name: 'По цене max', value: 'max' },
+        { name: 'По наименованию', value: 'title' },
+      ],
+      optionActive: 'По умолчанию',
+      areOptionVisible: false,
+      sortedProducts: [],
+    };
+  },
   methods: {
     deleteProduct(index) {
       this.$emit('deleteProduct', index);
+    },
+    selectOption(name) {
+      this.optionActive = name;
     },
   },
 };
@@ -36,10 +59,60 @@ export default {
 $bg-color: #fffefb;
 $text-color: #3f3f3f;
 $important-color: #ff8484;
+$select-color: #b4b4b4;
+
+.product__inner {
+  margin: 0 auto;
+}
 
 .sorting {
-  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 16px;
+  position: relative;
+  .select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 121px;
+    padding: 10px 16px 11px;
+    position: relative;
+    cursor: pointer;
+    color: $select-color;
+    background: $bg-color;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .select--active {
+    margin-right: 5px;
+    color: $select-color;
+  }
+  .option__inner {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    background: $bg-color;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    top: 32px;
+    right: 0;
+    span {
+      width: 100%;
+      padding: 8px;
+      color: $select-color;
+      &:hover {
+        background: $select-color;
+        opacity: 0.5;
+        color: $text-color;
+        border-radius: 4px;
+      }
+    }
+  }
+  .img__arrow {
+    display: block;
+  }
 }
 
 .product-list {
@@ -108,6 +181,34 @@ $important-color: #ff8484;
       }
       line-height: 30px;
     }
+  }
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@media (max-width: 1100px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 850px) {
+  .product-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .sorting {
+    justify-content: flex-start;
   }
 }
 </style>

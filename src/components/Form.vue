@@ -1,10 +1,11 @@
 <template>
-  <div class="">
+  <div class="form__inner">
     <h1 class="title">Добавление товара</h1>
     <form class="form">
       <label class="form__label" for="name">
         <p class="label__title label__title--important">Наименование товара</p>
-        <input required class="form__input" type="text" name="name" placeholder="Введите наименование товара" v-model="title" @blur="notEmpty">
+        <input required class="form__input" type="text" name="name" placeholder="Введите наименование товара" v-model="title" @blur="notEmpty" title="Поле является обязательным">
+        <p class="input-error" hidden>{{ invalidMessage }}</p>
       </label>
       <label class="form__label" for="description">
         <p class="label__title">Описание товара</p>
@@ -12,11 +13,13 @@
       </label>
       <label class="form__label" for="image">
         <p class="label__title label__title--important">Ссылка на изображение товара</p>
-        <input required class="form__input" type="url" name="image" placeholder="Введите ссылку " v-model="url" @blur="notEmpty">
+        <input required class="form__input" type="url" name="image" placeholder="Введите ссылку " v-model="url" @blur="notEmpty" title="Поле является обязательным">
+        <p class="input-error" hidden>{{ invalidMessage }}</p>
       </label>
       <label class="form__label" for="price">
         <p class="label__title label__title--important">Цена товара</p>
-        <input required class="form__input" type="number" name="price" placeholder="Введите цену" v-model="price" @blur="notEmpty">
+        <input required class="form__input" type="number" name="price" placeholder="Введите цену" v-model="price" @blur="notEmpty" title="Поле является обязательным">
+        <p class="input-error" hidden>{{ invalidMessage }}</p>
       </label>
       <button :disabled="!areAllInputsValid" class="button" type="button" @click="createNewProduct">Добавить товар</button>
     </form>
@@ -32,6 +35,7 @@ export default {
       url: '',
       description: '',
       price: '',
+      invalidMessage: 'Поле является обязательным',
     };
   },
   computed: {
@@ -39,7 +43,8 @@ export default {
       return this.title !== '';
     },
     isUrlValid() {
-      return this.url !== '';
+      const regex = RegExp('(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+@]*)*(\\?[;&a-z\\d%_.~+=-@]*)?(\\#[-a-z\\d_@]*)?$', 'i');
+      return this.url !== '' && this.url.match(regex);
     },
     isPriceValid() {
       return this.price !== '';
@@ -78,6 +83,10 @@ $important-color: #ff8484;
 $disabled-color: #eeeeee;
 $active-color: #7bae73;
 $active-color--text: #ffffff;
+
+.form__inner {
+  margin: 0 auto;
+}
 
 .title {
   font: {
@@ -119,6 +128,13 @@ $active-color--text: #ffffff;
       color: $label-color;
       position: relative;
       margin-bottom: 4px;
+    }
+    .input-error {
+      position: absolute;
+      font-size: 8px;
+      line-height: 10px;
+      letter-spacing: -0.02em;
+      color: $important-color;
     }
   }
   .label__title--important::after {
@@ -177,12 +193,6 @@ $active-color--text: #ffffff;
       color: $placeholder-color;
       background: $disabled-color;
     }
-  }
-}
-
-input[type="url"] {
-  &:invalid {
-    border: 1px solid $important-color !important;
   }
 }
 
